@@ -15,7 +15,10 @@ public class DetectItem : MonoBehaviour
     public Text TextObject;
 
 
-
+    void Start()
+    {
+        transform.localPosition = new Vector3(0f, 0f, 0.5f); // modify the constants to your likings, depending on where your character's eyes are.
+    }
 
     void FixedUpdate()
     {
@@ -36,13 +39,17 @@ public class DetectItem : MonoBehaviour
         #endregion
 
 
-        if (Physics.Raycast(myPos, fwd, out hit, Distance, LayersToDetect))
+        if (Physics.Raycast(ray, out hit, Distance, LayersToDetect))
         {
-            if (hit.transform.tag == "Item") // you can change the tag(s) of your objects here that need to be detected
+            //if (hit.transform.tag == "Item") // Uncomment if you want to use a tag isntead. You can change the tag(s) of your objects here that need to be detected
+            //{
+            //    hit.transform.SendMessage("Equip");
+            //}
+            if (hit.collider.gameObject.GetComponent<ItemInteraction>().enabled == true)
             {
                 hit.transform.SendMessage("Equip");
             }
-            
+
             // end if for detection
         } 
         else

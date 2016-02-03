@@ -49,13 +49,27 @@ public class ItemInteraction : MonoBehaviour
             //diable the Text Object
             DisableText();
 
-            //Destroy the object on the floor
-            Destroy(gameObject);
+            //Hide the object on the floor then respawn the weapon once the time has gone
+            Despawn();
+            
         }
         //end if 
     }
 
-    
+
+    void Despawn()
+    {
+        this.gameObject.SetActive(false); //hide the object
+    }
+
+    IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        print("spawned");
+        this.gameObject.SetActive(true);
+        StopCoroutine(Respawn());
+    }
     void ShowText()
     {
         txtToDisplay = "Pick up " + this.Name;
